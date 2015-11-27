@@ -14,6 +14,11 @@
 
     npm install -g left-behind
 
+## Use
+
+From command line, run `left-behind <module name>`. Fetches dependencies and what version
+each dependency is using currently.
+
 ### Small print
 
 Author: Gleb Bahmutov &copy; 2015
