@@ -1,23 +1,25 @@
 {
   "name": "left-behind",
-  "version": "0.0.0",
   "description": "Fetches information how many dependent projects are behind your current release",
   "main": "index.js",
+  "version": "0.0.0-semantic-release",
   "scripts": {
     "test": "npm run lint",
     "lint": "eslint bin/*.js index.js",
     "issues": "git-issues",
     "commit": "git-issues && commit-wizard",
-    "size": "t=\"$(npm pack .)\"; wc -c \"${t}\"; tar tvf \"${t}\"; rm \"${t}\";"
+    "size": "t=\"$(npm pack .)\"; wc -c \"${t}\"; tar tvf \"${t}\"; rm \"${t}\";",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bahmutov/left-behind.git"
+    "url": "https://github.com/bahmutov/left-behind.git"
   },
   "files": [
     "bin",
     "index.js"
   ],
+  "preferGlobal": true,
   "keywords": [
     "npm",
     "version",
@@ -49,7 +51,8 @@
   "devDependencies": {
     "eslint": "1.10.1",
     "git-issues": "1.2.0",
-    "pre-git": "1.4.0"
+    "pre-git": "1.4.0",
+    "semantic-release": "^4.3.5"
   },
   "dependencies": {
     "bluebird": "3.0.5",
