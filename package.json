@@ -4,12 +4,19 @@
   "description": "Fetches information how many dependent projects are behind your current release",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "issues": "git-issues",
+    "commit": "git-issues && commit-wizard",
+    "size": "t=\"$(npm pack .)\"; wc -c \"${t}\"; tar tvf \"${t}\"; rm \"${t}\";"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bahmutov/left-behind.git"
   },
+  "files": [
+    "bin",
+    "index.js"
+  ],
   "keywords": [
     "npm",
     "version",
@@ -23,5 +30,27 @@
   "bugs": {
     "url": "https://github.com/bahmutov/left-behind/issues"
   },
-  "homepage": "https://github.com/bahmutov/left-behind#readme"
+  "homepage": "https://github.com/bahmutov/left-behind#readme",
+  "config": {
+    "pre-git": {
+      "commit-msg": "validate-commit-msg",
+      "pre-commit": [],
+      "pre-push": [
+        "npm run size"
+      ],
+      "post-commit": [],
+      "post-merge": []
+    }
+  },
+  "devDependencies": {
+    "git-issues": "1.2.0",
+    "pre-git": "1.4.0"
+  },
+  "dependencies": {
+    "bluebird": "3.0.5",
+    "check-more-types": "2.2.0",
+    "get-package": "1.0.1",
+    "lazy-ass": "1.1.0",
+    "top-dependents": "1.1.0"
+  }
 }
