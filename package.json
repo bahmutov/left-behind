@@ -1,0 +1,27 @@
+{
+  "name": "left-behind",
+  "version": "0.0.0",
+  "description": "Fetches information how many dependent projects are behind your current release",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bahmutov/left-behind.git"
+  },
+  "keywords": [
+    "npm",
+    "version",
+    "semver",
+    "utility",
+    "dependent",
+    "dependencies"
+  ],
+  "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bahmutov/left-behind/issues"
+  },
+  "homepage": "https://github.com/bahmutov/left-behind#readme"
+}
