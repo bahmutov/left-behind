@@ -33,6 +33,16 @@ function leftBehind(options) {
   var name = options.name;
   var n = options.n || options.maxN || 10;
 
+  var reporterName = options.reporter || 'bars';
+  var reporterModules = {
+    bars: './src/reporter-bars'
+  };
+  var reporterModule = reporterModules[reporterName];
+  la(check.unemptyString(reporterModule),
+    'missing reporter module', options, reporterName);
+  var reporter = require(reporterModule);
+  la(check.fn(reporter), 'missing reporter', reporter, reporterModule);
+
   Promise.resolve(topDeps.topDependents(name, n))
     .then(function (list) {
       console.log('this packages depend on %s', name);
@@ -49,10 +59,11 @@ function leftBehind(options) {
         };
       });
     })
-    .then(function (versions) {
+    .tap(function (versions) {
       console.log('package %s', name, 'is used by dependent projects');
       console.log(versions);
-    });
+    })
+    .then(reporter);
 }
 
 module.exports = leftBehind;

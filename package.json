@@ -17,6 +17,7 @@
   },
   "files": [
     "bin",
+    "src",
     "index.js"
   ],
   "preferGlobal": true,
@@ -55,6 +56,7 @@
     "semantic-release": "^4.3.5"
   },
   "dependencies": {
+    "bars": "github:jstrace/bars",
     "bluebird": "3.0.5",
     "check-more-types": "2.2.0",
     "get-package": "1.0.1",
