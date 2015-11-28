@@ -3,7 +3,26 @@ var check = require('check-more-types');
 var bars = require('bars');
 var sortByVersion = require('./sort-by-version');
 var toExactSemver = require('to-exact-semver');
+var semver = require('semver');
 var hr = require('hr');
+var chalk = require('chalk');
+
+function findLineSemver(line) {
+  var regular = /^\s*([0-9]+)\.([0-9]+)\.([0-9]+)/;
+  var matches = regular.exec(line);
+  if (check.array(matches)) {
+    return matches[0].trim();
+  }
+}
+
+function split(version) {
+  la(check.unemptyString(version), 'expected version', version);
+  return {
+    major: semver.major(version),
+    minor: semver.minor(version),
+    patch: semver.patch(version)
+  };
+}
 
 function reporter(name, currentVersion, versionInfo) {
   la(check.unemptyString(name), 'missing current package name', name);
@@ -28,11 +47,28 @@ function reporter(name, currentVersion, versionInfo) {
   var sortedData = sortByVersion(data);
   la(check.object(sortedData), 'could not sort data by version', data);
 
+  var current = split(currentVersion);
+
   hr.hr('-');
-  console.log('Dependents for %s@%s', name, currentVersion);
+  console.log('Checked %d dependents for %s@%s', versionInfo.length, name, currentVersion);
   console.log();
+
   var histogram = bars(sortedData);
-  console.log(histogram);
+  var lines = histogram.split('\n').map(function (line) {
+    var lineSemver = findLineSemver(line);
+    if (check.unemptyString(lineSemver)) {
+      var uses = split(lineSemver);
+      if (uses.major < current.major) {
+        return chalk.red(line);
+      }
+      if (uses.minor < current.minor) {
+        return chalk.yellow(line);
+      }
+      return chalk.green(line);
+    }
+    return line;
+  });
+  console.log(lines.join('\n'));
 }
 
 module.exports = reporter;
