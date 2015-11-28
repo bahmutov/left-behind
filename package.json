@@ -66,6 +66,7 @@
     "lazy-ass": "1.1.0",
     "lodash": "3.10.1",
     "semver": "5.1.0",
+    "to-exact-semver": "1.0.0",
     "top-dependents": "1.1.0"
   }
 }
