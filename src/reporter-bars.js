@@ -6,6 +6,7 @@ var toExactSemver = require('to-exact-semver');
 var semver = require('semver');
 var hr = require('hr');
 var chalk = require('chalk');
+var pluralize = require('pluralize');
 
 function findLineSemver(line) {
   var regular = /^\s*([0-9]+)\.([0-9]+)\.([0-9]+)/;
@@ -50,7 +51,8 @@ function reporter(name, currentVersion, versionInfo) {
   var current = split(currentVersion);
 
   hr.hr('-');
-  console.log('Checked %d dependents for %s@%s', versionInfo.length, name, currentVersion);
+  console.log('Checked %d %s for %s@%s', versionInfo.length,
+    pluralize('dependent', versionInfo.length), name, currentVersion);
   console.log();
 
   var histogram = bars(sortedData);
