@@ -5,7 +5,7 @@
   "version": "0.0.0-semantic-release",
   "scripts": {
     "test": "mocha src/*-spec.js",
-    "lint": "eslint bin/*.js index.js",
+    "lint": "eslint bin/*.js index.js src/*.js",
     "issues": "git-issues",
     "commit": "git-issues && commit-wizard",
     "size": "t=\"$(npm pack .)\"; wc -c \"${t}\"; tar tvf \"${t}\"; rm \"${t}\";",
@@ -63,6 +63,7 @@
     "check-more-types": "2.2.0",
     "get-package": "1.0.1",
     "lazy-ass": "1.1.0",
+    "semver": "5.1.0",
     "top-dependents": "1.1.0"
   }
 }
