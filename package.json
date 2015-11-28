@@ -10,7 +10,8 @@
     "commit": "git-issues && commit-wizard",
     "size": "t=\"$(npm pack .)\"; wc -c \"${t}\"; tar tvf \"${t}\"; rm \"${t}\";",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
-    "example-lazy-ass": "node ./bin/left-behind.js lazy-ass"
+    "example-lazy-ass": "node ./bin/left-behind.js lazy-ass",
+    "example-check-more-types": "node ./bin/left-behind.js check-more-types"
   },
   "repository": {
     "type": "git",
