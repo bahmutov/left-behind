@@ -3,6 +3,9 @@
   "description": "Fetches information how many dependent projects are behind your current release",
   "main": "index.js",
   "version": "0.0.0-semantic-release",
+  "bin": {
+    "left-behind": "./bin/left-behind.js"
+  },
   "scripts": {
     "test": "mocha src/*-spec.js",
     "lint": "eslint bin/*.js index.js src/*.js",
