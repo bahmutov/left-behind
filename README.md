@@ -17,7 +17,10 @@
 ## Use
 
 From command line, run `left-behind <module name>`. Fetches dependencies and what version
-each dependency is using currently.
+each dependency is using currently. Creates different reports in the terminal, for example
+a color-coded histogram of modules behind
+
+![histogram](images/histogram.png)
 
 ### Small print
 
