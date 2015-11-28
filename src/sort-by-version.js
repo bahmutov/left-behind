@@ -23,13 +23,7 @@ function sortByVersion(o, descending) {
   if (descending) {
     sortedVersions = sortedVersions.reverse();
   }
-  // console.log('pairs sorted by version');
-  // console.log(sortedVersions);
-
   var sorted = _.zipObject(sortedVersions);
-  // console.log('sorted');
-  //console.log(sorted);
-
   return sorted;
 }
 

@@ -3,8 +3,12 @@ var check = require('check-more-types');
 var bars = require('bars');
 var sortByVersion = require('./sort-by-version');
 var toExactSemver = require('to-exact-semver');
+var hr = require('hr');
 
-function reporter(versionInfo) {
+function reporter(name, currentVersion, versionInfo) {
+  la(check.unemptyString(name), 'missing current package name', name);
+  la(check.unemptyString(currentVersion), 'missing current version', currentVersion);
+
   la(check.array(versionInfo));
   var data = {};
   versionInfo.forEach(function (info) {
@@ -24,8 +28,11 @@ function reporter(versionInfo) {
   var sortedData = sortByVersion(data);
   la(check.object(sortedData), 'could not sort data by version', data);
 
+  hr.hr('-');
+  console.log('Dependents for %s@%s', name, currentVersion);
   console.log();
-  console.log(bars(sortedData));
+  var histogram = bars(sortedData);
+  console.log(histogram);
 }
 
 module.exports = reporter;

@@ -63,7 +63,13 @@ function leftBehind(options) {
       console.log('package %s', name, 'is used by dependent projects');
       console.log(versions);
     })
-    .then(reporter);
+    .then(function (versions) {
+      return getPackage(name).
+        then(function (pkg) {
+          return [name, pkg.version, versions];
+        });
+    })
+    .spread(reporter);
 }
 
 module.exports = leftBehind;
