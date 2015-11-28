@@ -1,7 +1,7 @@
 {
   "name": "left-behind",
   "description": "Fetches information how many dependent projects are behind your current release",
-  "main": "index.js",
+  "main": "src/left-behind.js",
   "version": "0.0.0-semantic-release",
   "bin": {
     "left-behind": "./bin/left-behind.js"
