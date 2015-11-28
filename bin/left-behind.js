@@ -21,7 +21,7 @@ var name = process.argv[2];
 var nconf = require('nconf');
 nconf.env().argv();
 nconf.defaults({
-  n: 30
+  n: 100
 });
 
 var leftBehind = require('..');
