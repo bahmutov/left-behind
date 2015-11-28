@@ -17,7 +17,16 @@ if (noArguments()) {
 }
 
 var name = process.argv[2];
+
+var nconf = require('nconf');
+nconf.env().argv();
+nconf.defaults({
+  n: 30
+});
+
 var leftBehind = require('..');
+
 leftBehind({
-  name: name
+  name: name,
+  n: nconf.get('n')
 });
