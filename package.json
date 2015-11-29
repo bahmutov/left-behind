@@ -74,6 +74,7 @@
     "nconf": "0.8.2",
     "pluralize": "1.2.1",
     "semver": "5.1.0",
+    "simple-bin-help": "1.2.0",
     "to-exact-semver": "1.0.0",
     "top-dependents": "1.1.0"
   }
