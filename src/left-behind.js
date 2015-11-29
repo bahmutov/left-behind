@@ -6,6 +6,7 @@ var getPackageJson = require('get-package');
 var _ = require('lodash');
 var log = require('debug')('behind');
 var toExact = require('to-exact-semver');
+var semver = require('semver');
 
 function getPackage(name) {
   return new Promise(function (resolve, reject) {
@@ -29,6 +30,14 @@ function findUsedVersion(name, package) {
       return package.devDependencies[name];
     }
   }
+}
+
+function stripV(version) {
+  var leadingV = /^v/;
+  if (leadingV.test(version)) {
+    return version.substr(1);
+  }
+  return version;
 }
 
 function leftBehind(options) {
@@ -89,11 +98,21 @@ function leftBehind(options) {
           };
         }
       }).filter(function hasVersion(info) {
-        return info && check.unemptyString(info.uses);
+        return info &&
+          check.unemptyString(info.uses) &&
+          semver.valid(info.uses);
+      });
+    })
+    .then(function (versions) {
+      return versions.map(function (dep) {
+        dep.uses = stripV(dep.uses);
+        return dep;
       });
     })
     .then(function (versions) {
       console.log('%d dependent projects after version filtering', versions.length);
+      log(versions);
+
       return getPackage(name).then(function (pkg) {
         return [name, pkg.version, versions];
       });
