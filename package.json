@@ -25,6 +25,9 @@
     "bin",
     "src"
   ],
+  "engines": {
+    "node": ">=4.0.0"
+  },
   "preferGlobal": true,
   "keywords": [
     "npm",

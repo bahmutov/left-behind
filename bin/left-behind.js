@@ -1,4 +1,8 @@
-#!/usr/bin/env node
+#!/usr/bin/env node --harmony
+
+'use strict';
+
+// console.log(process.argv)
 
 require('simple-bin-help')({
   minArguments: 3,
@@ -6,15 +10,15 @@ require('simple-bin-help')({
   help: 'use: left-behind <package name>'
 });
 
-var name = process.argv[2];
+const name = process.argv[2];
 
-var nconf = require('nconf');
+const nconf = require('nconf');
 nconf.env().argv();
 nconf.defaults({
-  n: 100
+  n: 100 // sample n dependent modules, not all
 });
 
-var leftBehind = require('..');
+const leftBehind = require('..');
 
 leftBehind({
   name: name,

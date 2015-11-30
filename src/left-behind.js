@@ -7,6 +7,7 @@ var _ = require('lodash');
 var log = require('debug')('behind');
 var toExact = require('to-exact-semver');
 var semver = require('semver');
+var pluralize = require('pluralize');
 
 function getPackage(name) {
   return new Promise(function (resolve, reject) {
@@ -61,7 +62,8 @@ function leftBehind(options) {
 
   Promise.resolve(topDeps.topDependents(name, n))
     .then(function (list) {
-      console.log('found %d packaged dependent on %s', list.length, name);
+      console.log('found %d %s dependent on %s',
+        list.length, pluralize('package', list.length), name);
       log('these packages depend on %s', name);
       log(list);
       return list;
@@ -81,8 +83,8 @@ function leftBehind(options) {
       });
     })
     .tap(function (versions) {
-      console.log('package %s', name, 'is used by', versions.length, 'dependent projects');
-      console.log(versions);
+      console.log('package %s', name, 'is used by', versions.length, 'dependent',
+        pluralize('package', versions.length));
     })
     .then(function (versions) {
       return versions.map(function (info) {
@@ -110,7 +112,8 @@ function leftBehind(options) {
       });
     })
     .then(function (versions) {
-      console.log('%d dependent projects after version filtering', versions.length);
+      console.log('%d dependent %s after version filtering',
+        versions.length, pluralize('package', versions.length));
       log(versions);
 
       return getPackage(name).then(function (pkg) {
