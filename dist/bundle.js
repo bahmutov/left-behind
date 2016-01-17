@@ -1,4 +1,108 @@
-import barsReporter from './reporter-bars';
+'use strict';
+
+var la$2 = require('lazy-ass');
+var check$2 = require('check-more-types');
+var _$1 = require('lodash');
+var semver$2 = require('semver');
+
+function compareFirstArguments(fn) {
+  la$2(check$2.fn(fn), 'expected a function', fn);
+  return function (a, b) {
+    return fn(a[0], b[0]);
+  };
+}
+
+var compareVersions = compareFirstArguments(semver$2.compare);
+
+// TODO move to k2, make more general
+function sortByVersion(o, descending) {
+  la$2(check$2.object(o));
+
+  var list = _$1.pairs(o);
+  // [[version, name], [version, name], ...]
+
+  var sortedVersions = list.sort(compareVersions);
+  if (descending) {
+    sortedVersions = sortedVersions.reverse();
+  }
+  var sorted = _$1.zipObject(sortedVersions);
+  return sorted;
+}
+
+var la$1 = require('lazy-ass');
+var check$1 = require('check-more-types');
+var bars = require('bars');
+var toExactSemver = require('to-exact-semver');
+var semver$1 = require('semver');
+var hr = require('hr');
+var chalk = require('chalk');
+var pluralize$1 = require('pluralize');
+
+function findLineSemver(line) {
+  var regular = /^\s*([0-9]+)\.([0-9]+)\.([0-9]+)/;
+  var matches = regular.exec(line);
+  if (check$1.array(matches)) {
+    return matches[0].trim();
+  }
+}
+
+function split(version) {
+  la$1(check$1.unemptyString(version), 'expected version', version);
+  return {
+    major: semver$1.major(version),
+    minor: semver$1.minor(version),
+    patch: semver$1.patch(version)
+  };
+}
+
+function reporter(name, currentVersion, versionInfo) {
+  la$1(check$1.unemptyString(name), 'missing current package name', name);
+  la$1(check$1.unemptyString(currentVersion), 'missing current version', currentVersion);
+
+  la$1(check$1.array(versionInfo));
+  var data = {};
+  versionInfo.forEach(function (info) {
+    la$1(check$1.unemptyString(info.uses), info);
+    var exactVersion = toExactSemver(info.name, info.uses);
+    if (check$1.not.unemptyString(exactVersion)) {
+      return;
+    }
+
+    if (data[exactVersion]) {
+      data[exactVersion] += 1;
+    } else {
+      data[exactVersion] = 1;
+    }
+  });
+
+  var sortedData = sortByVersion(data);
+  la$1(check$1.object(sortedData), 'could not sort data by version', data);
+
+  var current = split(currentVersion);
+
+  hr.hr('-');
+  console.log('Checked %d %s for %s@%s', versionInfo.length,
+    pluralize$1('dependent', versionInfo.length), name, currentVersion);
+  console.log();
+
+  var histogram = bars(sortedData);
+  var lines = histogram.split('\n').map(function (line) {
+    var lineSemver = findLineSemver(line);
+    if (check$1.unemptyString(lineSemver)) {
+      var uses = split(lineSemver);
+      if (uses.major < current.major) {
+        return chalk.red(line);
+      }
+      if (uses.minor < current.minor) {
+        return chalk.yellow(line);
+      }
+      return chalk.green(line);
+    }
+    return line;
+  });
+  console.log(lines.join('\n'));
+}
+
 var la = require('lazy-ass');
 var check = require('check-more-types');
 var topDeps = require('top-dependents');
@@ -49,13 +153,13 @@ function leftBehind(options) {
 
   var reporterName = options.reporter || 'bars';
   var reporterModules = {
-    bars: barsReporter
+    bars: reporter
   };
   var reporterModule = reporterModules[reporterName];
   la(check.unemptyString(reporterModule),
     'missing reporter module', options, reporterName);
-  var reporter = require(reporterModule);
-  la(check.fn(reporter), 'missing reporter', reporter, reporterModule);
+  var reporter$$ = require(reporterModule);
+  la(check.fn(reporter$$), 'missing reporter', reporter$$, reporterModule);
 
   var fetchOptions = {
     concurrency: 5
@@ -121,7 +225,7 @@ function leftBehind(options) {
         return [name, pkg.version, versions];
       });
     })
-    .spread(reporter);
+    .spread(reporter$$);
 }
 
 module.exports = leftBehind;

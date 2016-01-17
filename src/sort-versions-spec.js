@@ -1,3 +1,5 @@
+import sortByVersion from './sort-by-version';
+
 var la = require('lazy-ass');
 var check = require('check-more-types');
 var _ = require('lodash');
@@ -12,8 +14,6 @@ describe('semver comparison', function () {
 });
 
 describe('sorting by version', function () {
-  var sortByVersion = require('./sort-by-version');
-
   var info = {
     '0.5.1': 2,
     '0.2.0': 1,

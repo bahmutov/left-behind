@@ -27,4 +27,5 @@ function sortByVersion(o, descending) {
   return sorted;
 }
 
-module.exports = sortByVersion;
+// module.exports = sortByVersion;
+export default sortByVersion;

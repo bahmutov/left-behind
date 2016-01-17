@@ -7,7 +7,7 @@
     "left-behind": "./bin/left-behind.js"
   },
   "scripts": {
-    "test": "mocha src/*-spec.js",
+    "test": "mocha --compilers js:babel-register src/*-spec.js",
     "lint": "eslint bin/*.js src/*.js",
     "issues": "git-issues",
     "commit": "git-issues && commit-wizard",
@@ -15,7 +15,8 @@
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "example-lazy-ass": "node ./bin/left-behind.js lazy-ass",
     "example-check-more-types": "node ./bin/left-behind.js check-more-types",
-    "example-lodash": "node ./bin/left-behind.js lodash -n 1000"
+    "example-lodash": "node ./bin/left-behind.js lodash -n 1000",
+    "build": "build src/left-behind.js"
   },
   "repository": {
     "type": "git",
@@ -58,6 +59,8 @@
     }
   },
   "devDependencies": {
+    "babel-preset-es2015": "6.3.13",
+    "babel-register": "6.4.3",
     "eslint": "1.10.2",
     "git-issues": "1.2.0",
     "mocha": "2.3.4",
@@ -69,6 +72,7 @@
     "bluebird": "3.0.5",
     "chalk": "1.1.1",
     "check-more-types": "2.2.0",
+    "compiled": "1.6.0",
     "debug": "2.2.0",
     "get-package": "1.0.1",
     "hr": "0.1.3",

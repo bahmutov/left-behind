@@ -1,7 +1,8 @@
+import sortByVersion from './sort-by-version';
+
 var la = require('lazy-ass');
 var check = require('check-more-types');
 var bars = require('bars');
-var sortByVersion = require('./sort-by-version');
 var toExactSemver = require('to-exact-semver');
 var semver = require('semver');
 var hr = require('hr');
@@ -73,4 +74,5 @@ function reporter(name, currentVersion, versionInfo) {
   console.log(lines.join('\n'));
 }
 
-module.exports = reporter;
+// module.exports = reporter;
+export default reporter;
