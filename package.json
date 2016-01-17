@@ -1,10 +1,10 @@
 {
   "name": "left-behind",
   "description": "Fetches information how many dependent projects are behind your current release",
-  "main": "src/left.js",
+  "main": "dist/left.compiled.js",
   "version": "0.0.0-semantic-release",
   "bin": {
-    "left-behind": "./bin/left-behind.js"
+    "left-behind": "dist/left-behind.compiled.js"
   },
   "scripts": {
     "test": "mocha --compilers js:babel-register src/*-spec.js",
@@ -16,7 +16,7 @@
     "example-lazy-ass": "node ./bin/left-behind.js lazy-ass",
     "example-check-more-types": "node ./bin/left-behind.js check-more-types",
     "example-lodash": "node ./bin/left-behind.js lodash -n 1000",
-    "build": "build"
+    "build": "build && compile"
   },
   "repository": {
     "type": "git",
@@ -47,13 +47,14 @@
   "config": {
     "compiled": {
       "dir": "dist",
-      "files": ["src/left.js", "bin/left-behind.js"],
+      "files": ["src/left.js", "bin/left-behind.js"]
     },
     "pre-git": {
       "commit-msg": "validate-commit-msg",
       "pre-commit": [
         "npm run lint",
-        "npm run test"
+        "npm run test",
+        "npm run build"
       ],
       "pre-push": [
         "npm run size"
@@ -76,7 +77,7 @@
     "bluebird": "3.0.5",
     "chalk": "1.1.1",
     "check-more-types": "2.2.0",
-    "compiled": "1.7.0",
+    "compiled": "1.8.0",
     "debug": "2.2.0",
     "get-package": "1.0.1",
     "hr": "0.1.3",

@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 
+
 'use strict';
 
-import leftBehind from '..';
+var leftBehind = require('..');
+leftBehind = 'default' in leftBehind ? leftBehind['default'] : leftBehind;
 
 require('simple-bin-help')({
   minArguments: 3,
@@ -10,9 +12,9 @@ require('simple-bin-help')({
   help: 'use: left-behind <package name>'
 });
 
-const name = process.argv[2];
+var name = process.argv[2];
 
-const nconf = require('nconf');
+var nconf = require('nconf');
 nconf.env().argv();
 nconf.defaults({
   n: 100 // sample n dependent modules, not all
