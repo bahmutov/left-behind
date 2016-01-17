@@ -1,7 +1,7 @@
 {
   "name": "left-behind",
   "description": "Fetches information how many dependent projects are behind your current release",
-  "main": "src/left-behind.js",
+  "main": "src/left.js",
   "version": "0.0.0-semantic-release",
   "bin": {
     "left-behind": "./bin/left-behind.js"
@@ -16,7 +16,7 @@
     "example-lazy-ass": "node ./bin/left-behind.js lazy-ass",
     "example-check-more-types": "node ./bin/left-behind.js check-more-types",
     "example-lodash": "node ./bin/left-behind.js lodash -n 1000",
-    "build": "build src/left-behind.js"
+    "build": "build"
   },
   "repository": {
     "type": "git",
@@ -45,6 +45,10 @@
   },
   "homepage": "https://github.com/bahmutov/left-behind#readme",
   "config": {
+    "compiled": {
+      "dir": "dist",
+      "files": ["src/left.js", "bin/left-behind.js"],
+    },
     "pre-git": {
       "commit-msg": "validate-commit-msg",
       "pre-commit": [
@@ -72,7 +76,7 @@
     "bluebird": "3.0.5",
     "chalk": "1.1.1",
     "check-more-types": "2.2.0",
-    "compiled": "1.6.0",
+    "compiled": "1.7.0",
     "debug": "2.2.0",
     "get-package": "1.0.1",
     "hr": "0.1.3",
