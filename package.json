@@ -16,15 +16,15 @@
     "example-lazy-ass": "node ./bin/left-behind.js lazy-ass",
     "example-check-more-types": "node ./bin/left-behind.js check-more-types",
     "example-lodash": "node ./bin/left-behind.js lodash -n 1000",
-    "build": "build && compile"
+    "build": "build && compile",
+    "postinstall": "compile"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/bahmutov/left-behind.git"
   },
   "files": [
-    "bin",
-    "src"
+    "dist"
   ],
   "engines": {
     "node": ">=4.0.0"

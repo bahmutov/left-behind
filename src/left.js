@@ -1,6 +1,10 @@
 import barsReporter from './reporter-bars';
+
 var la = require('lazy-ass');
 var check = require('check-more-types');
+
+la(check.fn(barsReporter), 'could not load bars reporter', barsReporter);
+
 var topDeps = require('top-dependents');
 var Promise = require('bluebird');
 var getPackageJson = require('get-package');
@@ -51,11 +55,10 @@ function leftBehind(options) {
   var reporterModules = {
     bars: barsReporter
   };
-  var reporterModule = reporterModules[reporterName];
-  la(check.unemptyString(reporterModule),
-    'missing reporter module', options, reporterName);
-  var reporter = require(reporterModule);
-  la(check.fn(reporter), 'missing reporter', reporter, reporterModule);
+  var reporter = reporterModules[reporterName];
+  la(check.fn(reporter),
+    'missing reporter module', options, reporterName,
+    'available', reporterModules);
 
   var fetchOptions = {
     concurrency: 5
