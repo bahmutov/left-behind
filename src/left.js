@@ -1,5 +1,10 @@
+import barsReporter from './reporter-bars';
+
 var la = require('lazy-ass');
 var check = require('check-more-types');
+
+la(check.fn(barsReporter), 'could not load bars reporter', barsReporter);
+
 var topDeps = require('top-dependents');
 var Promise = require('bluebird');
 var getPackageJson = require('get-package');
@@ -20,15 +25,15 @@ function getPackage(name) {
   });
 }
 
-function findUsedVersion(name, package) {
-  if (package.dependencies) {
-    if (package.dependencies[name]) {
-      return package.dependencies[name];
+function findUsedVersion(name, pkg) {
+  if (pkg.dependencies) {
+    if (pkg.dependencies[name]) {
+      return pkg.dependencies[name];
     }
   }
-  if (package.devDependencies) {
-    if (package.devDependencies[name]) {
-      return package.devDependencies[name];
+  if (pkg.devDependencies) {
+    if (pkg.devDependencies[name]) {
+      return pkg.devDependencies[name];
     }
   }
 }
@@ -48,13 +53,12 @@ function leftBehind(options) {
 
   var reporterName = options.reporter || 'bars';
   var reporterModules = {
-    bars: './reporter-bars'
+    bars: barsReporter
   };
-  var reporterModule = reporterModules[reporterName];
-  la(check.unemptyString(reporterModule),
-    'missing reporter module', options, reporterName);
-  var reporter = require(reporterModule);
-  la(check.fn(reporter), 'missing reporter', reporter, reporterModule);
+  var reporter = reporterModules[reporterName];
+  la(check.fn(reporter),
+    'missing reporter module', options, reporterName,
+    'available', reporterModules);
 
   var fetchOptions = {
     concurrency: 5
@@ -75,10 +79,10 @@ function leftBehind(options) {
     .map(getPackage, fetchOptions)
     .then(function (list) {
       // list of package.json files
-      return list.map(function findVersion(package) {
+      return list.map(function findVersion(pkg) {
         return {
-          name: package.name,
-          uses: findUsedVersion(name, package)
+          name: pkg.name,
+          uses: findUsedVersion(name, pkg)
         };
       });
     })

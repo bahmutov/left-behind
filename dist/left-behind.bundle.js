@@ -2,7 +2,8 @@
 
 'use strict';
 
-import leftBehind from '..';
+var leftBehind = require('..');
+leftBehind = 'default' in leftBehind ? leftBehind['default'] : leftBehind;
 
 require('simple-bin-help')({
   minArguments: 3,
